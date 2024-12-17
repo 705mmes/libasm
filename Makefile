@@ -2,37 +2,30 @@ NAME        = test
 PRINT_NAME  = Build
 PRINT_PREFIX= \033[1m\033[38;5;240m[\033[0m\033[38;5;250m$(PRINT_NAME)\033[1m\033[38;5;240m] \033[38;5;105m~\033[0m
 
-SRC_DIR     = srcs
-ASM_SRC     = ft_strlen.s
+SRC_DIR     = 	srcs
+ASM_SRC     = 	ft_strlen.s \
+				ft_strcmp.s \
+				ft_strcpy.s \
+
 C_SRC       = main.c
 ASM_SRC     := $(addprefix $(SRC_DIR)/, $(ASM_SRC))
 C_SRC       := $(addprefix $(SRC_DIR)/, $(C_SRC))
 OBJ_DIR     = obj
 
-# OS Detection
-UNAME := $(shell uname -s)
 
-ifeq ($(UNAME), Darwin)
-    ASM_COMPILER = as
-    ASM_FLAGS   = -arch arm64
-    CC          = clang
-    LINKER      = clang
-else ifeq ($(UNAME), Linux)
-    ASM_COMPILER = nasm
-    ASM_FLAGS   = -f elf64
-    CC          = gcc
-    LINKER      = gcc
-else
-    $(error Unsupported OS: $(UNAME))
-endif
+ASM_COMPILER = nasm
+ASM_FLAGS   = -f elf64
+CC          = gcc
+LINKER      = gcc
+
 
 # Common Flags
 CFLAGS      = -Wall -Wextra -Werror -g3
 LINK_FLAGS  = -o $(NAME)
 
 # Object files
-ASM_OBJ     = $(OBJ_DIR)/$(notdir $(ASM_SRC:.s=.o))
-C_OBJ       = $(OBJ_DIR)/$(notdir $(C_SRC:.c=.o))
+ASM_OBJ     = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(ASM_SRC))
+C_OBJ       = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(C_SRC))
 OBJS        = $(ASM_OBJ) $(C_OBJ)
 
 all: $(NAME)
