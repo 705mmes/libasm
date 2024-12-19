@@ -18,6 +18,5 @@ copy_loop:
 
 done:
     mov byte [rdi], 0
-    inc rdi
     pop rax
     ret

@@ -1,3 +1,9 @@
+# ███    ███  █████  ██   ██ ███████ ███████ ██ ██      ███████ 
+# ████  ████ ██   ██ ██  ██  ██      ██      ██ ██      ██      
+# ██ ████ ██ ███████ █████   █████   █████   ██ ██      █████   
+# ██  ██  ██ ██   ██ ██  ██  ██      ██      ██ ██      ██      
+# ██      ██ ██   ██ ██   ██ ███████ ██      ██ ███████ ███████
+
 NAME        = test
 PRINT_NAME  = Build
 PRINT_PREFIX= \033[1m\033[38;5;240m[\033[0m\033[38;5;250m$(PRINT_NAME)\033[1m\033[38;5;240m] \033[38;5;105m~\033[0m
@@ -20,8 +26,8 @@ LINKER      = gcc
 
 
 # Common Flags
-CFLAGS      = -Wall -Wextra -Werror -g3
-LINK_FLAGS  = -o $(NAME)
+CFLAGS      = -Wall -Wextra -Werror -fsanitize=address -g3
+LINK_FLAGS  = -o $(NAME) -fsanitize=address
 
 # Object files
 ASM_OBJ     = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(ASM_SRC))

@@ -32,4 +32,3 @@ done:
     movzx rbx, bl
     sub rax, rbx
     ret
-    ret
