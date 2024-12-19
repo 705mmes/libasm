@@ -1,14 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <malloc.h>
-
-extern size_t   ft_strlen(const char *s);
-extern char     *ft_strcpy(char *dest, const char *src);
-extern int      ft_strcmp(const char *s1, const char *s2);
-extern ssize_t   ft_write(int fd, const void *buf, size_t count);
+#include <libasm.h>
      
 int main() {
     // FT_STRLEN
@@ -21,7 +11,6 @@ int main() {
     //_________________________________________________________________
     // FT_STRCPY
 
-    // const char *str = "Hello, World!";
     // printf("String to copy: %s\n", str);
     // char *copy = malloc(strlen(str) + 1); //strlen(str) calculates the actual length of the string, while sizeof(str) gives the size of the str pointer.
     // char *ft_copy = malloc(strlen(str) + 1);
@@ -51,11 +40,32 @@ int main() {
 
     //_________________________________________________________________
     // FT_WRITE
-    const char *str = "Hello, World!\n";
-    // write(1, str, strlen(str));
-    // ft_write(1, str, strlen(str));
-    printf("Return value of write: %ld\n", write(1, str, strlen(str)));
-    printf("Return value of ft_write: %ld\n", ft_write(1, str, strlen(str)));
+    char *invalid_buffer = (char *)0x12345678;  // Adresse invalide
+    // int b_write = write(1, str, strlen(str));
+    // printf("[ write output = %d]\n", b_write);
+    // printf("errno = %d\n", errno);
+    // printf("ft_write\n[");
+    // int ft_b_write = ft_write(1, str, strlen(str));
+    // printf(" ft_write output = %d]\n", ft_b_write);
+    // printf("errno = %d\n", errno);
 
+    //_________________________________________________________________
+    // FT_READ
+    int fd2 = open("./srcs/tests/test_read.txt",0);
+    if (fd2 == -1)
+    {
+        perror("Error opening file");
+    }
+    char *readtest = malloc(10);
+    int b_read = read(fd2, invalid_buffer, 10);
+    printf("read output = %d\n", b_read);
+    printf("read = %s\n", readtest);
+    printf("errno = %d\n", errno);
+    char *ft_readtest = malloc(10);
+    int ft_b_read = ft_read(fd2, ft_readtest, 10);
+    printf("ft_read output = %d\n", ft_b_read);
+    printf("ft_read = %s\n", ft_readtest);
+    printf("errno = %d\n", errno);
+    close(fd2);
     return 0;
 }

@@ -6,5 +6,11 @@ ft_write:
     ; rsi -> msg
     ; rdx -> size of msg
     mov rax, 1 ; System call number (for write, it's 1)
-    syscall    
+    syscall
+
+    test rax, rax
+    js error    
+    ret
+error:
+    mov rax, -1
     ret
