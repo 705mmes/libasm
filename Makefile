@@ -18,6 +18,7 @@ ASM_SRC     = ft_strlen.s \
              ft_strcpy.s \
              ft_write.s \
 			 ft_read.s \
+			 ft_strdup.s \
 
 C_SRC       = main.c
 ASM_SRC     := $(addprefix $(SRC_DIR)/, $(ASM_SRC))
@@ -30,8 +31,8 @@ CC          = gcc
 LINKER      = gcc
 
 # Common Flags
-CFLAGS      = -Wall -Wextra -Werror -g3 -I$(LIB_DIR)
-LINK_FLAGS  = -o $(NAME)
+CFLAGS      = -Wall -Wextra -Werror -g3 -I$(LIB_DIR) -fsanitize=address
+LINK_FLAGS  = -o $(NAME) -fsanitize=address
 
 # Object files
 ASM_OBJ     = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(ASM_SRC))
