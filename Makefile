@@ -30,11 +30,9 @@ ASM_FLAGS   = -f elf64
 CC          = gcc
 LINKER      = gcc
 
-# Common Flags
-CFLAGS      = -Wall -Wextra -Werror -g3 -I$(LIB_DIR) -fsanitize=address
+CFLAGS      = -Wall -Wextra -Werror -g3 -I$(LIB_DIR) -fsanitize=address -fPIE
 LINK_FLAGS  = -o $(NAME) -fsanitize=address
 
-# Object files
 ASM_OBJ     = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(ASM_SRC))
 C_OBJ       = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(C_SRC))
 OBJS        = $(ASM_OBJ) $(C_OBJ)
@@ -54,33 +52,26 @@ $(NAME): $(OBJ_DIR) $(LIB) $(OBJS)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
-# Compile assembly source files into object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.s
 	@$(ASM_COMPILER) $(ASM_FLAGS) -o $@ $<
 
-# Compile C source files into object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Create static library (libasm.a)
 $(LIB): $(ASM_OBJ)
 	@ar rcs $(LIB) $(ASM_OBJ)
 	@echo "$(PRINT_PREFIX)\033[0;38;5;226m Static Library $(LIB_NAME) created\033[0m"
 
-# Clean up object files and the static library
 clean:
 	@echo "$(PRINT_PREFIX)\033[0;38;5;226m Cleaning \033[0m\n"
 	@rm -rf $(OBJ_DIR)
 	@echo "$(PRINT_PREFIX)\033[0;32m Done \033[0;32m\n"
 
-# Clean everything (including the static library)
 fclean: clean
 	@rm -f $(NAME) $(LIB)
 
-# Rebuild everything
 re: fclean all
 
-# Run the program
 run: all clean
 	./$(NAME)
 

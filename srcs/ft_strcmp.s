@@ -2,6 +2,9 @@ section .text
     global ft_strcmp
 
 ft_strcmp:
+    push rbp
+    mov rbp, rsp
+    push rbx
     xor rax, rax
     ; rdi == s1
     ; rsi == s2
@@ -25,10 +28,16 @@ not_equal:
     movzx rax, al   ; permet de copier un registre de taille inférieur dans un registre de plus grande taille en remplissant les bits supplémentaires par des 0.
     movzx rbx, bl
     sub rax, rbx
+    pop rbx
+    mov rsp, rbp
+    pop rbp
     ret
 
 done:
     movzx rax, al
     movzx rbx, bl
     sub rax, rbx
+    pop rbx
+    mov rsp, rbp
+    pop rbp
     ret

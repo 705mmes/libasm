@@ -6,10 +6,16 @@ ft_read:
     ; rdi -> fd to write into
     ; rsi -> msg
     ; rdx -> size of msg
+    push rbp
+    mov rbp, rsp
+    push rbx
     mov rax, 0 ; System call number (for read, it's 0)
     syscall
     test rax, rax
     js error
+    pop rbx
+    mov rsp, rbp
+    pop rbp
     ret
 
 error:
@@ -18,4 +24,6 @@ error:
     call __errno_location wrt ..plt
     mov [rax] , rdi ; This is where you write the error code into errno.
     mov rax , -1
+    mov rsp, rbp
+    pop rbp
     ret

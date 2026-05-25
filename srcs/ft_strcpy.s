@@ -2,10 +2,11 @@ section .text
     global ft_strcpy
 
 ft_strcpy:
-    xor rax, rax
-    ; rdi dest
-    ; rsi source
-    push rdi
+    push rbp
+    mov rbp, rsp
+    push rbx
+    mov rbx, rdi ; save original dst in rbx (callee-saved, not used as byte scratch)
+
 
 copy_loop:
     mov al, [rsi]   ; mov first rsi byte into al (with a dereference (like [rsi]) is a read-only)
@@ -18,5 +19,8 @@ copy_loop:
 
 done:
     mov byte [rdi], 0
-    pop rax
+    mov rax, rbx
+    pop rbx
+    mov rsp, rbp
+    pop rbp
     ret

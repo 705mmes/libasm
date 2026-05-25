@@ -2,6 +2,8 @@ section .text
     global ft_strlen
 
 ft_strlen:
+    push rbp
+    mov rbp, rsp
     xor rax, rax        ; Any number XORed with itself is 0
 
 ft_strlen_loop:
@@ -12,4 +14,6 @@ ft_strlen_loop:
     jmp ft_strlen_loop
 
 done:
+    mov rsp, rbp
+    pop rbp
     ret
