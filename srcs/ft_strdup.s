@@ -32,7 +32,7 @@ ft_strdup:
 
 malloc_error:
     call __errno_location wrt ..plt; returns a pointer to errno in rax / wrt ..plt causes the linker to build a procedure linkage table entry for the symbol
-    mov [rax], 12 ; 12 = ENOMEM -> Insufficient memory available to allocate duplicate string
+    mov qword [rax], 12 ; 12 = ENOMEM -> Insufficient memory available to allocate duplicate string
     pop r12
     pop rbx
     mov rsp, rbp

@@ -10,9 +10,11 @@ int main(void)
 {
     const char  *str            = "A string";
     const char  *other_str      = "Another string";
+    const char  *null_str       = NULL;
     size_t size                 = ft_strlen(str) + 1;
     char                        *cpy;
-    
+    (void)null_str;
+
     cpy = malloc(sizeof(*cpy) * size);
     if (cpy == NULL)
         return error("malloc");
@@ -20,20 +22,23 @@ int main(void)
     // -------------STRLEN----------------
     printf("_STRLEN_\n\n");
 
+    size_t llen = strlen(str);
     size_t len = ft_strlen(str);
-    printf("%zu\n", len);
+    printf("ft_strlen=%zu\nstrlen=%zu\n", len, llen);
 
     printf("-----------------------\n");
     // ------------WRITE------------------
     printf("_WRITE_\n\n");
 
+    write(1, str, ft_strlen(str));
+    ft_write(1, "\n", 1);
     ft_write(1, str, ft_strlen(str));
     ft_write(1, "\n", 1);
 
     printf("-----------------------\n");
     // ------------STRCPY-----------------
     printf("_STRCPY_\n\n");
-
+    
     ft_strcpy(cpy, str);
     printf("cpy: %s\n", cpy);
 
@@ -76,9 +81,11 @@ int main(void)
     // ------------STRDUP--------------
     printf("_STRDUP_\n\n");
 
-    char *new_str = ft_strdup("Une string et pas un string lol\n");
-    printf("%s", new_str);
+    char *new_str = ft_strdup("A string\n");
+    char *another_one = strdup("Another string\n");
+    printf("%s%s", new_str, another_one);
     free(new_str);
+    free(another_one);
 
     printf("-----------------------\n");
     return 0;

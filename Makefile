@@ -30,7 +30,7 @@ ASM_FLAGS   = -f elf64
 CC          = gcc
 LINKER      = gcc
 
-CFLAGS      = -Wall -Wextra -Werror -g3 -I$(LIB_DIR) -fsanitize=address -fPIE
+CFLAGS      = -Wall -Wextra -Werror -I$(LIB_DIR)
 LINK_FLAGS  = -o $(NAME) -fsanitize=address
 
 ASM_OBJ     = $(patsubst $(SRC_DIR)/%.s, $(OBJ_DIR)/%.o, $(ASM_SRC))
